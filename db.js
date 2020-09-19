@@ -1,5 +1,14 @@
 const Sequelize = require("sequelize");
+
+//Creación de los Modelos
 const modeloPlato = require("./models/platos");
+const modeloUsuario = require("./models/usuarios");
+const modeloDescripcion = require("./models/descripcionPedido");
+const modeloFavorito = require("./models/favoritos");
+const modeloPedido = require("./models/pedidos");
+const modeloFormaPago = require("./models/formasDePago");
+const modeloEstado = require("./models/estados");
+const modeloRole = require("./models/roles");
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 require("dotenv").config({
