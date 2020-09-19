@@ -6,7 +6,7 @@ const moment = require("moment"); // Librería de moment para el manejo de fecha
 const jswt = require("jsonwebtoken");
 
 //Trae las variables almacenadas en el Environment
-require("./env");
+require("../../env");
 
 // POST - Realiza registro de Usuarios y Valida los campos con express-validator como middleware
 router.post(
@@ -30,22 +30,29 @@ router.post(
 );
 
 // POST Login
-router.post("/login", async (req, res) => {
-  const usuario = await Usuario.findOne({
-    where: {
-      [Op.or]: [{ email: req.body.email }, { usuario: req.body.usuario }],
-    },
-  });
-  if (usuario) {
-    if (bcrypt.compareSync(req.body.password, usuario.password)) {
-      res.json({ success: createToken(usuario) });
+router.post(
+  "/login",
+  [
+    check("email", "No es un email").isEmail(),
+    check("password", "El password es obligatorio").not().isEmpty(),
+  ],
+  async (req, res) => {
+    const { usuario, email, password } = req.body;
+    const user = usuario
+      ? await Usuario.findOne({ where: { usuario: req.body.usuario } })
+      : await Usuario.findOne({ where: { email: req.body.email } });
+
+    if (user) {
+      if (bcrypt.compareSync(password, user.password)) {
+        res.json({ success: createToken(user) });
+      } else {
+        res.json({ error: "Error en usuario y/o contraseña" });
+      }
     } else {
       res.json({ error: "Error en usuario y/o contraseña" });
     }
-  } else {
-    res.json({ error: "Error en usuario y/o contraseña" });
   }
-});
+);
 
 // Crea el Token con el id del usuario, y expira en 1h
 const createToken = (usuario) => {
