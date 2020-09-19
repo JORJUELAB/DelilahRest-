@@ -10,10 +10,8 @@ const modeloFormaPago = require("./models/formasDePago");
 const modeloEstado = require("./models/estados");
 const modeloRole = require("./models/roles");
 
-const NODE_ENV = process.env.NODE_ENV || "development";
-require("dotenv").config({
-  path: `.env.${NODE_ENV}`,
-});
+//Trae las variables almacenadas en el Environment
+require("./env");
 
 //Sincronización con la base de dátos ('database', 'username', 'password')
 const sequelize = new Sequelize(
