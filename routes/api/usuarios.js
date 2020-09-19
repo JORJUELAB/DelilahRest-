@@ -19,7 +19,7 @@ router.post(
     }
     req.body.password = bcrypt.hashSync(req.body.password, 10); // Se cifra la contraseña 10 veces
     const usuario = await Usuario.create(req.body);
-    res.json(usuario);
+    res.json(`Se ha creado el usuario ${usuario.usuario} satisfactoriamente!`);
   }
 );
 
