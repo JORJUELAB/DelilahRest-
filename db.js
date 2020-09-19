@@ -42,4 +42,11 @@ sequelize.sync({ force: false }).then(() => {
 
 module.exports = {
   Plato,
+  Usuario,
+  Descripcion,
+  Favorito,
+  Pedido,
+  FormaPago,
+  Estado,
+  Role,
 };
