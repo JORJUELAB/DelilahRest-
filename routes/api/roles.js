@@ -1,6 +1,4 @@
 const router = require("express").Router();
-const middleware = require("../middlewares");
-
 const { Role } = require("../../db");
 
 // GET Obtener todos los Roles
@@ -12,56 +10,54 @@ router.get("/", async (req, res) => {
 
 // GET Obtener un Role por el ID
 // SELECT * FROM Roles WHERE id = id;
-router.get(
-  "/:id",
-  [middleware.verificarToken, middleware.validarAdmin],
-  async (req, res) => {
-    const role = await Role.findByPk(req.params.id);
-    if (role) {
-      res.json(role);
-    } else {
-      res.status(404).json({
-        error: "Role no encontrado.",
-      });
-    }
+router.get("/:id", async (req, res) => {
+  const role = await Role.findByPk(req.params.id);
+  if (role) {
+    res.json(role);
+  } else {
+    res.status(404).json({
+      error: "Rol no encontrado.",
+    });
   }
-);
+});
 
 // POST Crear un Role
 // INSERT INTO Roles(nombre) VALUES(nombre);
-router.post(
-  "/",
-  [middleware.verificarToken, middleware.validarAdmin],
-  async (req, res) => {
-    const role = await Role.create(req.body);
-    res.json(role);
-  }
-);
+router.post("/", async (req, res) => {
+  const role = await Role.create(req.body)
+    .then((role) => {
+      res.json(role);
+    })
+    .catch(() => {
+      res.status(409).json({
+        error: "El rol ya existe",
+      });
+    });
+});
 
 // PUT Editar un Role
-// UPDATE Roles SET nombre = nombre WHERE id = roleId;
-router.put(
-  "/:roleId",
-  [middleware.verificarToken, middleware.validarAdmin],
-  async (req, res) => {
-    await Role.update(req.body, {
-      where: { id: req.params.roleId },
+// UPDATE Roles SET nombre = nombre WHERE id = id;
+router.put("/:id", async (req, res) => {
+  await Role.update(req.body, {
+    where: { id: req.params.id },
+  })
+    .then((role) => {
+      res.json({ message: `se ha modificado el Role ${req.params.id}` });
+    })
+    .catch(() => {
+      res.status(409).json({
+        error: "El rol ya existe",
+      });
     });
-    res.json({ message: `se ha modificado el Role ${req.params.roleId}` });
-  }
-);
+});
 
 // DELETE Eliminar un Role
-// DELETE FROM Roles WHERE id = roleId;
-router.delete(
-  "/:roleId",
-  [middleware.verificarToken, middleware.validarAdmin],
-  async (req, res) => {
-    await Role.destroy({
-      where: { id: req.params.RoleId },
-    });
-    res.json({ message: `se ha eliminado el Role ${req.params.roleId}` });
-  }
-);
+// DELETE FROM Roles WHERE id = id;
+router.delete("/:id", async (req, res) => {
+  await Role.destroy({
+    where: { id: req.params.id },
+  });
+  res.json({ message: `se ha eliminado el Role ${req.params.id}` });
+});
 
 module.exports = router;
