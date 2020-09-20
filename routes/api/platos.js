@@ -9,6 +9,19 @@ router.get("/", async (req, res) => {
   res.json(platos);
 });
 
+// GET Obtener un plato por el ID
+// SELECT * FROM Platos WHERE id = id;
+router.get("/:id", async (req, res) => {
+  const plato = await Plato.findByPk(req.params.id);
+  if (plato) {
+    res.json(plato);
+  } else {
+    res.status(404).json({
+      error: "Plato no encontrado.",
+    });
+  }
+});
+
 // POST Crear un plato
 // INSERT INTO Platos(nombre, precio, descripcion, imagen) VALUES(nombre, precio, descripcion, imagen);
 router.post("/", async (req, res) => {

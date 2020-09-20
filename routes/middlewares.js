@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const { Role } = require("../db");
+
 //Trae las variables almacenadas en el Environment
 require("../env");
 
@@ -27,6 +29,18 @@ const verificarToken = (req, res, next) => {
   next();
 };
 
+const validarAdmin = async (req, res, next) => {
+  const role = await Role.findByPk(req.rol);
+  if (role.nombre == "Administrador") {
+    next();
+  } else {
+    return res.status(401).json({
+      error: "Usuario no Autorizado!",
+    });
+  }
+};
+
 module.exports = {
   verificarToken,
+  validarAdmin,
 };

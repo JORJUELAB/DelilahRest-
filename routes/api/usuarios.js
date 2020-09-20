@@ -1,11 +1,22 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs"); // Uso de bcrypt para cifrar la contraseña
 const { Usuario } = require("../../db");
+const middleware = require("../middlewares");
 const { check, validationResult } = require("express-validator"); //Agregar validaciones sobre los datos enviados en el body de la petición
 const jswt = require("jsonwebtoken");
 
 //Trae las variables almacenadas en el Environment
 require("../../env");
+
+// GET - Obtener todos los usuarios Sólo para los administradores
+router.get(
+  "/",
+  [middleware.verificarToken, middleware.validarAdmin],
+  async (req, res) => {
+    const usuarios = await Usuario.findAll();
+    res.json({ usuarios });
+  }
+);
 
 // POST - Realiza registro de Usuarios y Valida los campos con express-validator como middleware
 router.post(
