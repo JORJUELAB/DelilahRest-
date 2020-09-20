@@ -34,9 +34,16 @@ const FormaPago = modeloFormaPago(sequelize, Sequelize);
 const Estado = modeloEstado(sequelize, Sequelize);
 const Role = modeloRole(sequelize, Sequelize);
 
-sequelize.sync({ force: false }).then(() => {
-  console.log("Tablas sincronizadas!");
-});
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("Tablas sincronizadas!");
+
+    require("./init");
+  })
+  .catch(() => {
+    console.log("No se pudo conectar con la base de dátos!!");
+  });
 
 module.exports = {
   Plato,

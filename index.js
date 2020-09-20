@@ -5,11 +5,17 @@ const apiRouter = require("./routes/api");
 
 const app = express();
 
+//Trae las variables almacenadas en el Environment
+require("./env");
+
 // Levanta la base de datos y crea las tablas si estas no existen
 require("./db");
 
-//Trae las variables almacenadas en el Environment
-require("./env");
+/*
+ * Pobla la base de datos con los datos iniciales
+ * Como Roles, Forma de pago, estados
+ */
+require("./init");
 
 app.use(cors());
 app.use(bodyparser.json());
