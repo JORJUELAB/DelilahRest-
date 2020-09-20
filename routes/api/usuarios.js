@@ -107,7 +107,7 @@ router.get(
 // UPDATE Usuarios SET usuario = usuario, nombre = nombre,  apellido = apellido,
 // email = email, telefono = telefono, direccion = direccion, password = password
 // WHERE id = id;
-router.put("/:id", [middleware.verificarToken], async (req, res) => {
+router.put("/:id", middleware.verificarToken, async (req, res) => {
   if (req.rol == 1) {
     const usuario = await Usuario.findOne({ where: { id: req.params.id } });
     if (usuario) {
