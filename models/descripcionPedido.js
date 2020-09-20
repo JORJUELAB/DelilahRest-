@@ -5,8 +5,8 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    pedido: type.INTEGER,
-    plato: type.INTEGER,
-    cantidad: type.INTEGER,
+    pedido: { type: type.INTEGER, allowNull: false },
+    plato: { type: type.INTEGER, allowNull: false },
+    cantidad: { type: type.INTEGER, allowNull: false },
   });
 };

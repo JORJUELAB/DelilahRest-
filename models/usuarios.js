@@ -8,12 +8,14 @@ module.exports = (sequelize, type) => {
     usuario: {
       type: type.STRING,
       unique: true,
+      allowNull: false,
     },
     nombre: type.STRING,
     apellido: type.STRING,
     email: {
       type: type.STRING,
       unique: true,
+      allowNull: false,
     },
     telefono: type.STRING,
     direccion: type.STRING,
@@ -21,6 +23,7 @@ module.exports = (sequelize, type) => {
     rol: {
       type: type.INTEGER,
       defaultValue: 2,
+      allowNull: false,
     },
   });
 };

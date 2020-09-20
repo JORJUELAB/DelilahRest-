@@ -5,7 +5,7 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    usuario: type.INTEGER,
-    plato: type.INTEGER,
+    usuario: { type: type.INTEGER, allowNull: false },
+    plato: { type: type.INTEGER, allowNull: false },
   });
 };

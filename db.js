@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { QueryTypes } = require("sequelize");
 
 //Creación de los Modelos
 const modeloPlato = require("./models/platos");
@@ -54,4 +55,6 @@ module.exports = {
   FormaPago,
   Estado,
   Role,
+  sequelize,
+  QueryTypes,
 };

@@ -9,7 +9,7 @@ module.exports = (sequelize, type) => {
       type: type.INTEGER,
       defaultValue: 1,
     },
-    usuario: type.INTEGER,
+    usuario: { type: type.INTEGER, allowNull: false },
     estado: {
       type: type.INTEGER,
       defaultValue: 1,
