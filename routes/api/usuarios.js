@@ -2,7 +2,6 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs"); // Uso de bcrypt para cifrar la contraseña
 const { Usuario } = require("../../db");
 const { check, validationResult } = require("express-validator"); //Agregar validaciones sobre los datos enviados en el body de la petición
-const moment = require("moment"); // Librería de moment para el manejo de fechas
 const jswt = require("jsonwebtoken");
 
 //Trae las variables almacenadas en el Environment
@@ -25,7 +24,9 @@ router.post(
     }
     req.body.password = bcrypt.hashSync(req.body.password, 10); // Se cifra la contraseña 10 veces
     const usuario = await Usuario.create(req.body);
-    res.json(`Se ha creado el usuario ${usuario.usuario} satisfactoriamente!`);
+    res
+      .status(201)
+      .json(`Se ha creado el usuario ${usuario.usuario} satisfactoriamente!`);
   }
 );
 
@@ -46,10 +47,10 @@ router.post(
       if (bcrypt.compareSync(password, user.password)) {
         res.json({ success: createToken(user) });
       } else {
-        res.json({ error: "Error en usuario y/o contraseña" });
+        res.status(404).json({ error: "Error en usuario y/o contraseña" });
       }
     } else {
-      res.json({ error: "Error en usuario y/o contraseña" });
+      res.status(404).json({ error: "Error en usuario y/o contraseña" });
     }
   }
 );
@@ -59,6 +60,7 @@ const createToken = (usuario) => {
   return jswt.sign(
     {
       usuarioId: usuario.id,
+      rol: usuario.rol,
     },
     process.env.SECRET_JWT,
     { expiresIn: "1h" }
