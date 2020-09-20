@@ -5,8 +5,14 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    formaPago: type.INTEGER,
+    formaPago: {
+      type: type.INTEGER,
+      defaultValue: 1,
+    },
     usuario: type.INTEGER,
-    estado: type.STRING,
+    estado: {
+      type: type.INTEGER,
+      defaultValue: 1,
+    },
   });
 };

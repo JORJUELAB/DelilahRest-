@@ -5,13 +5,22 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    usuario: type.STRING,
+    usuario: {
+      type: type.STRING,
+      unique: true,
+    },
     nombre: type.STRING,
     apellido: type.STRING,
-    email: type.STRING,
+    email: {
+      type: type.STRING,
+      unique: true,
+    },
     telefono: type.STRING,
     direccion: type.STRING,
     password: type.STRING,
-    rol: type.INTEGER,
+    rol: {
+      type: type.INTEGER,
+      defaultValue: 2,
+    },
   });
 };

@@ -31,20 +31,20 @@ router.post("/", async (req, res) => {
 
 // PUT Editar un plato
 // UPDATE Platos SET nombre = nombre, precio = precio, descripcion = descripcion, imagen = imagen WHERE id = platoId;
-router.put("/:platoId", async (req, res) => {
-  await Plato.update(req.body, {
-    where: { id: req.params.platoId },
+router.put("/:id", async (req, res) => {
+  const plato = await Plato.update(req.body, {
+    where: { id: req.params.id },
   });
-  res.json({ message: `se ha modificado el plato ${req.params.platoId}` });
+  res.json(plato);
 });
 
 // DELETE Eliminar un plato
-// DELETE FROM Platos WHERE id = platoId;
-router.delete("/:platoId", async (req, res) => {
+// DELETE FROM Platos WHERE id = id;
+router.delete("/:id", async (req, res) => {
   await Plato.destroy({
-    where: { id: req.params.platoId },
+    where: { id: req.params.id },
   });
-  res.json({ message: `se ha eliminado el plato ${req.params.platoId}` });
+  res.json({ message: `se ha eliminado el plato ${req.params.id}` });
 });
 
 module.exports = router;
