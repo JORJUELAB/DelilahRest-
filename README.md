@@ -47,6 +47,12 @@ La base de dátos cuenta con 8 tablas para su funcionamiento:
 
 ## Instalación
 
+Para instalar las dependencias necesarias usamos, en la ruta del archivo package.json:
+
+```
+npm install
+```
+
 El proyecto incluye los modelos (carpeta modelos), las rutas (carpeta routes), la gestión de la comunicación con la base de dátos (archivo db.js),
 uso de variables de entorno DB_HOST, DB_SCHEMA, DB_USER, DB_PASS, SECRET_JWT, APP_PORT. Además de un archivo init.js que pobla las bases de datos:
 
@@ -64,10 +70,13 @@ uso de variables de entorno DB_HOST, DB_SCHEMA, DB_USER, DB_PASS, SECRET_JWT, AP
   - Tarjeta.
 
 Para iniciar el servidor, con nodemon:
+
 ```
 npm run dev
 ```
+
 Para iniciar el servidor, directamente:
+
 ```
 node index.js
 ```
@@ -75,6 +84,12 @@ node index.js
 ## EndoPoints
 
 Todos los Endpoints se llaman a travéz de la url http://IP:PORT/api/ENDPOINT
+Todos necesitan autenticacion con Json web token, es decir que en la cabecera se debe enviar la llave valor:
+
+```
+Key: Authorization
+Valor: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOjUsInJvbCI6MiwiaWF0IjoxNjAwNjU5NjUzLCJleHAiOjE2MDA2NjMyNTN9.I1h-jgcLVqB2nK7xVPE_ELHRflzIvgZ6ox0we65PCQ0
+```
 
 ### Estados: http://IP:PORT/api/estados
 
