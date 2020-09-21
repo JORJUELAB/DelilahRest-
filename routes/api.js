@@ -6,6 +6,7 @@ const apiRolesRouter = require("./api/roles");
 const apiEstadosRouter = require("./api/estados");
 const apiForamasPagoRouter = require("./api/formasPago");
 const apiFavoritosRouter = require("./api/favoritos");
+const apiPedidosRouter = require("./api/pedidos");
 const apiUsuariosRouter = require("./api/usuarios");
 
 // Rutas de Platos
@@ -26,7 +27,10 @@ router.use("/formasPago", middleware.verificarToken, apiForamasPagoRouter);
 // Rutas de Favoritos
 router.use("/favoritos", middleware.verificarToken, apiFavoritosRouter);
 
-// Rutas de usuarios
+// Rutas de Pedidos
+router.use("/pedidos", middleware.verificarToken, apiPedidosRouter);
+
+// Rutas de Usuarios
 router.use("/usuarios", apiUsuariosRouter);
 
 module.exports = router;
