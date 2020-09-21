@@ -4,6 +4,7 @@ const { Role } = require("../db");
 //Trae las variables almacenadas en el Environment
 require("../env");
 
+// Verifica si el token es válido
 const verificarToken = (req, res, next) => {
   if (!req.headers["authorization"]) {
     return res
@@ -14,7 +15,10 @@ const verificarToken = (req, res, next) => {
   const userToken = req.headers["authorization"].split(" ")[1];
   let dedoceToken = {};
   try {
-    dedoceToken = jwt.verify(userToken, process.env.SECRET_JWT);
+    dedoceToken = jwt.verify(
+      userToken,
+      process.env.SECRET_JWT ? process.env.SECRET_JWT : "delilahRestó123"
+    );
   } catch (error) {
     // Verifica si ha expirado el token
     if (error.name == "TokenExpiredError") {
@@ -29,6 +33,7 @@ const verificarToken = (req, res, next) => {
   next();
 };
 
+// Valida si el usuario tiene rol de Administrador
 const validarAdmin = async (req, res, next) => {
   const role = await Role.findByPk(req.rol);
   if (role.nombre == "Administrador") {

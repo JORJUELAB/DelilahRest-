@@ -1,13 +1,17 @@
 {
   "name": "delilah",
   "version": "1.0.0",
-  "description": "",
+  "description": "Este es un proyecto desarrollado para el curso de Desarrollo Web FullStack de Acámica. Es un servicio de Backend - API REST con NodeJS y base de dátos MySQL",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Jesús Alejandro Noguera Ballén",
+    "email": "janoguerab@unal.edu.co",
+    "license": "MIT"
+  },
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,7 +21,6 @@
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.28.0",
     "mysql2": "^2.2.2",
     "sequelize": "^6.3.5"
   }

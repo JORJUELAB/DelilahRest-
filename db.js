@@ -14,13 +14,13 @@ const modeloRole = require("./models/roles");
 //Trae las variables almacenadas en el Environment
 require("./env");
 
-//Sincronización con la base de dátos ('database', 'username', 'password')
+//Sincronización con la base de dátos ('database', 'username', 'password'), {'servidor', 'mysql'}
 const sequelize = new Sequelize(
-  process.env.DB_SCHEMA,
-  process.env.DB_USER,
-  process.env.DB_PASS,
+  process.env.DB_SCHEMA ? process.env.DB_SCHEMA : "DelilahResto",
+  process.env.DB_USER ? process.env.DB_USER : "root",
+  process.env.DB_PASS ? process.env.DB_PASS : "123",
   {
-    host: process.env.DB_HOST,
+    host: process.env.DB_HOST ? process.env.DB_HOST : "localhost",
     dialect: "mysql",
   }
 );

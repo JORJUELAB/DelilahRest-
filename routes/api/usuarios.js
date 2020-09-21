@@ -74,7 +74,7 @@ const createToken = (usuario) => {
       usuarioId: usuario.id,
       rol: usuario.rol,
     },
-    process.env.SECRET_JWT,
+    process.env.SECRET_JWT ? process.env.SECRET_JWT : "delilahRestó123",
     { expiresIn: "1h" }
   );
 };
