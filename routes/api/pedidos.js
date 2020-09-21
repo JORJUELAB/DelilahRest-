@@ -1,16 +1,7 @@
 const router = require("express").Router();
 const middleware = require("../middlewares");
 
-const {
-  Pedido,
-  Usuario,
-  FormaPago,
-  Role,
-  Estado,
-  Descripcion,
-  sequelize,
-  QueryTypes,
-} = require("../../db");
+const { Pedido, Descripcion, sequelize, QueryTypes } = require("../../db");
 
 // GET Obtener todos los Pedidos
 router.get("/", async (req, res) => {
@@ -70,35 +61,63 @@ router.get("/", async (req, res) => {
 // --- TODO ---------
 // GET Obtener un Favorito por ID
 router.get("/:id", async (req, res) => {
-  let favorito = {};
+  if (req.rol != 1) {
+    req.body.usuario = req.usuarioId;
+  }
+  let pedidos = {};
   if (req.rol == 1) {
-    favorito = await sequelize.query(
-      `SELECT p.nombre as plato 
-        FROM Favoritos as f 
-        JOIN Platos as p ON f.plato = p.id
-        WHERE f.id = ${req.params.id}`,
+    pedidos = await sequelize.query(
+      `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
+                        fp.nombre as pago,
+                        sum(pl.precio*dp.cantidad) as total,
+                        concat(u.nombre,' ',u.apellido) as usuario,
+                        u.direccion as dirección
+                        FROM Descripcion_pedidos as dp
+                        JOIN Platos as pl
+                        ON dp.plato = pl.id
+                        JOIN Pedidos as pd
+                        ON dp.pedido = pd.id
+                        JOIN FormaDePagos as fp
+                        ON pd.formaPago = fp.id
+                        JOIN Estados as e
+                        ON pd.estado = e.id
+                        JOIN Usuarios as u
+                        ON pd.usuario = u.id
+                        WHERE pd.id = ${req.params.id}
+                        group by dp.pedido;`,
       {
         type: QueryTypes.SELECT,
       }
     );
   } else {
-    favorito = await sequelize.query(
-      `SELECT p.nombre as plato 
-        FROM Favoritos as f 
-        JOIN Platos as p ON f.plato = p.id
-        WHERE f.usuario = ${req.usuarioId} AND f.plato = ${req.params.id}`,
+    pedidos = await sequelize.query(
+      `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
+                        fp.nombre as pago,
+                        sum(pl.precio*dp.cantidad) as total,
+                        concat(u.nombre,' ',u.apellido) as usuario,
+                        u.direccion as dirección
+                        FROM Descripcion_pedidos as dp
+                        JOIN Platos as pl
+                        ON dp.plato = pl.id
+                        JOIN Pedidos as pd
+                        ON dp.pedido = pd.id
+                        JOIN FormaDePagos as fp
+                        ON pd.formaPago = fp.id
+                        JOIN Estados as e
+                        ON pd.estado = e.id
+                        JOIN Usuarios as u
+                        ON pd.usuario = u.id
+                        WHERE pd.id = ${req.params.id} AND pd.usuario = ${req.body.usuario}
+                        group by dp.pedido;`,
       {
         type: QueryTypes.SELECT,
       }
     );
   }
-
-  if (favorito) {
-    res.json(favorito);
+  if (pedidos.length > 0) {
+    res.json(pedidos);
   } else {
-    res.status(404).json({
-      error: "Favorito no encontrado.",
-    });
+    return res.status(401).json({ error: "Usuario no Autorizado!" });
   }
 });
 
