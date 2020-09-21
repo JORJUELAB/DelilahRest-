@@ -60,7 +60,6 @@ router.get("/", async (req, res) => {
   res.json(pedidos);
 });
 
-// --- TODO ---------
 // GET Obtener un Favorito por ID
 router.get("/:id", async (req, res) => {
   if (req.rol != 1) {
@@ -186,7 +185,7 @@ router.post("/", async (req, res) => {
 });
 
 // PUT Editar un Pedido
-router.put("/:id", async (req, res) => {
+router.put("/:id", middleware.validarAdmin, async (req, res) => {
   const { formaPago, platos } = req.body;
   if (!platos) {
     return res.status(400).json({ error: "No se registraron platos" });
@@ -229,7 +228,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE Eliminar un pedido
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", middleware.validarAdmin, async (req, res) => {
   if (req.rol == 1) {
     await Pedido.destroy({
       where: { id: req.params.id },
