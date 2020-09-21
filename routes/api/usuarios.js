@@ -62,7 +62,7 @@ router.post(
         res.status(404).json({ error: "Error en usuario y/o contraseña" });
       }
     } else {
-      res.status(404).json({ error: "Error en usuario y/o contraseña" });
+      res.status(404).json({ error: " " });
     }
   }
 );
