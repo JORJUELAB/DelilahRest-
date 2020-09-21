@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
       `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
                       fp.nombre as pago,
                       sum(pl.precio*dp.cantidad) as total,
+                      u.id as idUsuario,
                       concat(u.nombre,' ',u.apellido) as usuario,
                       u.direccion as dirección
                       FROM Descripcion_pedidos as dp
@@ -34,6 +35,7 @@ router.get("/", async (req, res) => {
       `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
                       fp.nombre as pago,
                       sum(pl.precio*dp.cantidad) as total,
+                      u.id as idUsuario,
                       concat(u.nombre,' ',u.apellido) as usuario,
                       u.direccion as dirección
                       FROM Descripcion_pedidos as dp
@@ -70,6 +72,7 @@ router.get("/:id", async (req, res) => {
       `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
                         fp.nombre as pago,
                         sum(pl.precio*dp.cantidad) as total,
+                        u.id as idUsuario,
                         concat(u.nombre,' ',u.apellido) as usuario,
                         u.direccion as dirección
                         FROM Descripcion_pedidos as dp
@@ -94,6 +97,7 @@ router.get("/:id", async (req, res) => {
       `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
                         fp.nombre as pago,
                         sum(pl.precio*dp.cantidad) as total,
+                        u.id as idUsuario,
                         concat(u.nombre,' ',u.apellido) as usuario,
                         u.direccion as dirección
                         FROM Descripcion_pedidos as dp
@@ -155,6 +159,7 @@ router.post("/", async (req, res) => {
         `SELECT e.nombre as estado, pd.createdAt as hora, concat('#',dp.pedido) as número, group_concat(dp.cantidad,'x',pl.nombre SEPARATOR ' ') as descripcion,
                         fp.nombre as pago,
                         sum(pl.precio*dp.cantidad) as total,
+                        u.id as idUsuario,
                         concat(u.nombre,' ',u.apellido) as usuario,
                         u.direccion as dirección
                         FROM Descripcion_pedidos as dp
