@@ -64,13 +64,13 @@ uso de variables de entorno DB_HOST, DB_SCHEMA, DB_USER, DB_PASS, SECRET_JWT, AP
   - Tarjeta.
 
 Para iniciar el servidor, con nodemon:
-'''
+```
 npm run dev
-'''
+```
 Para iniciar el servidor, directamente:
-'''
+```
 node index.js
-'''
+```
 
 ## EndoPoints
 
