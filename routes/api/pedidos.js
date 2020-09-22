@@ -186,14 +186,11 @@ router.post("/", async (req, res) => {
 
 // PUT Editar un Pedido
 router.put("/:id", middleware.validarAdmin, async (req, res) => {
-  const { formaPago, platos } = req.body;
-  if (!platos) {
-    return res.status(400).json({ error: "No se registraron platos" });
-  }
+  const { formaPago } = req.body;
   if (req.rol != 1) {
     req.body.usuario = req.usuarioId;
   }
-  let pedido = await Pedido.update(
+  await Pedido.update(
     { formaPago, usuario: req.body.usuario },
     { where: { id: req.params.id, usuario: req.body.usuario } }
   ).catch(() => {
@@ -201,30 +198,8 @@ router.put("/:id", middleware.validarAdmin, async (req, res) => {
       error: "No se pudo modificar el pedido.",
     });
   });
-  if (pedido[0]) {
-    await Descripcion.destroy({
-      where: { pedido: req.params.id },
-    });
-    platos.forEach(async (plato) => {
-      await Descripcion.create(
-        {
-          pedido: req.params.id,
-          plato: plato.id,
-          cantidad: plato.cantidad,
-        },
-        { where: { pedido: req.params.id } }
-      ).catch(() => {
-        return res
-          .status(409)
-          .json({ error: "No se pudo modificar el pedido." });
-      });
-    });
-    res.json({ message: `se ha modificado el Pedido ${req.params.id}` });
-  } else {
-    res.status(409).json({
-      error: "No se pudo modificar el pedido.",
-    });
-  }
+
+  res.json({ message: `se ha modificado el Pedido ${req.params.id}` });
 });
 
 // DELETE Eliminar un pedido

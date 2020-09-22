@@ -22,7 +22,7 @@ const verificarToken = (req, res, next) => {
   } catch (error) {
     // Verifica si ha expirado el token
     if (error.name == "TokenExpiredError") {
-      return res.status(401).json({ error: "El Token ha expirado" });
+      return res.status(400).json({ error: "El Token ha expirado" });
     }
     return res
       .status(403)
