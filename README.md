@@ -38,6 +38,8 @@ La base de dátos cuenta con 8 tablas para su funcionamiento:
 - Roles.
 - Usuarios.
 
+Los archivos sql se encuentran en la carpeta SQL Files.
+
 ## Requisitos
 
     Para el correcto funcionamiento del servidor es necesario contar con:
@@ -54,7 +56,7 @@ npm install
 ```
 
 El proyecto incluye los modelos (carpeta modelos), las rutas (carpeta routes), la gestión de la comunicación con la base de dátos (archivo db.js),
-uso de variables de entorno DB_HOST, DB_SCHEMA, DB_USER, DB_PASS, SECRET_JWT, APP_PORT. Además de un archivo init.js que pobla las bases de datos:
+uso de variables de entorno DB_HOST, DB_SCHEMA, DB_USER, DB_PASS, SECRET_JWT, APP_PORT. Además de un archivo init.js que pobla las tablas:
 
 - Roles:
   - Adminsitrador.
@@ -68,6 +70,8 @@ uso de variables de entorno DB_HOST, DB_SCHEMA, DB_USER, DB_PASS, SECRET_JWT, AP
 - FormaDePagos:
   - Efectivo.
   - Tarjeta.
+
+Las tablas son creadas automáticamente al momento de subir el servidor y sincronizarse con la base de datos.
 
 Para iniciar el servidor, con nodemon:
 
