@@ -334,5 +334,18 @@ cliente
 - PUT/usuarios/{id}
   //Si un usuario cliente envía el campo rol, este será descartado y no podrá editarlo, además sólo puede etidar su propio usuario
   Request application/json
-  `{ "usuario": "cliente2", "nombre": "Keanu", "apellido": "Reves", "email": "cliente2@reverbnation.com", "telefono": "379-339-0649", "direccion": "2017 hollywood Str", "password": "cliente123" "rol":1 }`
+
+      ```
+      {
+        "usuario": "cliente2",
+        "nombre": "Keanu",
+        "apellido": "Reves",
+        "email": "cliente2@reverbnation.com",
+        "telefono": "379-339-0649",
+        "direccion": "2017 hollywood Str",
+        "password": "cliente123"
+        "rol":1
+      }
+      ```
+
 - DELETE/usuarios/{id}
