@@ -1,0 +1,1398 @@
+---
+openapi: "3.0.0"
+info:
+  title: "Delilah Restó API"
+  description: "Esta es la API de Delilah Restó"
+  contact:
+    name: "Jesús Alejandro Noguera"
+    email: "janoguerab@unal.edu.co"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  version: "1.0.0-oas3"
+servers:
+- url: "http://localhost:3000/api"
+  description: "Servidor de Pruebas"
+- url: "https://virtserver.swaggerhub.com/janoguerab/DelailahResto"
+  description: "Servidor de Producción"
+tags:
+- name: "administrador"
+  description: "Grupo de administradores"
+- name: "cliente"
+  description: "Grupo de Clientes"
+paths:
+  /usuarios/:
+    get:
+      tags:
+      - "administrador"
+      description: "Obtiene todos los Usuarios de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtiene todos los usuarios"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Usuarios"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /usuarios/register:
+    post:
+      description: "Registra un usuario en el sistema de Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/regristroBody"
+      responses:
+        "201":
+          description: "Se ha creado el usuario satisfactoriamente!"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "El nombre de usuario y/o email ya existe"
+  /usuarios/login:
+    post:
+      description: "Iniciar sesión en el sistema de Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/sesionBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOjUsInJvbCI6MiwiaWF0IjoxNjAwNjU5NjUzLCJleHAiOjE2MDA2NjMyNTN9.I1h-jgcLVqB2nK7xVPE_ELHRflzIvgZ6ox0we65PCQ0"
+        "404":
+          description: "Error en usuario y/o contraseña"
+        "403":
+          description: "No tiene permisos para realizar esta operación"
+  /usuarios/{id}:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene un usuario identificado por  el `id` en Delilah Restó\n"
+      operationId: "getUsuarioById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del usuario"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Usuarios"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Edita un usuario identificado por  el `id` en Delilah Restó\n"
+      operationId: "setUsuarioById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del usuario"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/regristroBody"
+      responses:
+        "200":
+          description: "Se ha actualizado el usuario satisfactoriamente!"
+        "400":
+          description: "El Token ha expirado"
+        "403":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "El usuario ${req.params.id} no existe"
+        "409":
+          description: "El nombre de usuario y/o email ya existe"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Elimina un usuario identificado por  el `id` en Delilah Restó\n"
+      operationId: "deleteUsuarioById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del usuario"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              example: "se ha eliminado el usuario {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /estados:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene todos los Estados de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtener todos los estados"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Estados"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - "administrador"
+      description: "Crea un estado en Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/estadoBody"
+      responses:
+        "200":
+          description: "Crear un estado"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Estados"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "El estado ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+  /estados/{id}:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene un estado identificado por  el `id` en Delilah Restó\n"
+      operationId: "getEstadoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del estado"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Estados"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "Estado no encontrado"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      description: "Edita un estado identificado por  el `id` en Delilah Restó\n"
+      operationId: "setEstadoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Estado"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/estadoBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha modificado el estado {id}"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "El Estado ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      description: "Elimina un estado identificado por  el `id` en Delilah Restó\n"
+      operationId: "deleteEstadoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Estado"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha eliminado el estado {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /favoritos:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene todos los Favoritos de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtener todos los favoritos"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ResponseFavoritos"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Crea un estado en Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/favoritoBody"
+      responses:
+        "200":
+          description: "Crear un estado"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Estados"
+        "409":
+          description: "No se pudo guardar el Favorito"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+  /favoritos/{id}:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene un favorito identificado por  el `id` en Delilah Restó\
+        \n"
+      operationId: "getFavoritoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del favorito"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ResponseFavoritos"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "Favorito no encontrado"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      description: "Edita un favorito identificado por  el `id` en Delilah Restó\n"
+      operationId: "setFavoritoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Favorito"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/favoritoBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha modificado el Favorito {id}"
+        "409":
+          description: "El Favorito ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Elimina un favorito identificado por  el `id` en Delilah Restó\
+        \n"
+      operationId: "deleteFavoritoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Favorito"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha eliminado el favorito {id}"
+        "400":
+          description: "No se pudo eliminar el favorito."
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /formasPago:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene todas formas de Pago de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtener todas las formas de Pago"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Formas_De_Pago"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - "administrador"
+      description: "Crea una forma de Pago en Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/formaPagoBody"
+      responses:
+        "200":
+          description: "Crear una Forma de Pago"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Formas_De_Pago"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "La forma de pago ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+  /formasPago/{id}:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene una Forma de pago identificada por  el `id` en Delilah\
+        \ Restó\n"
+      operationId: "getFormaDePagoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la Forma de Pago"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Formas_De_Pago"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "Forma de Pago no encontrada"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      description: "Edita una forma de pago identificado por  el `id` en Delilah Restó\
+        \n"
+      operationId: "setFormaDePagoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la Forma de Pago"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/formaPagoBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha modificado la forma de pago {id}"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "La forma de pago ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      description: "Elimina una Forma de pago identificada por  el `id` en Delilah\
+        \ Restó\n"
+      operationId: "deleteFormaPagoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la Forma de Pago"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha eliminado el estado {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /roles:
+    get:
+      tags:
+      - "administrador"
+      description: "Obtiene todos los roles de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtener todos los roles"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Roles"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - "administrador"
+      description: "Crea un rol en Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/rolBody"
+      responses:
+        "200":
+          description: "Crear un rol"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Roles"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "El Rol ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+  /roles/{id}:
+    get:
+      tags:
+      - "administrador"
+      description: "Obtiene una Rol identificado por  el `id` en Delilah Restó\n"
+      operationId: "getRolesById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Rol"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Roles"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "Rol no encontrado"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      description: "Edita un Rol identificado por  el `id` en Delilah Restó\n"
+      operationId: "setRolById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Rol"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/rolBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha modificado el Role {id}"
+        "404":
+          description: "Falta algún dato requerido o no tiene buen formato"
+        "409":
+          description: "La forma de pago ya existe"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      description: "Elimina un Rol identificado por  el `id` en Delilah Restó\n"
+      operationId: "deleteRolById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Rol"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha eliminado el Role {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /platos:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene todos los Platos de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtiene todos los platos"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Platos"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - "administrador"
+      description: "Crea un Plato en Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/platoBody"
+      responses:
+        "200":
+          description: "Crear un Plato"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Platos"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /platos/{id}:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene un Plato identificado por  el `id` en Delilah Restó\n"
+      operationId: "getPlatoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Plato"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Platos"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "Plato no encontrado"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      description: "Edita un Plato identificado por  el `id` en Delilah Restó\n"
+      operationId: "setPlatoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Plato"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/platoBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha modificado el Plato {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      description: "Elimina un Plato identificado por  el `id` en Delilah Restó\n"
+      operationId: "deletePlatoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Plato"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha eliminado el Plato {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /pedidos:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene todos los Pedidos de Delilah Restó\n"
+      responses:
+        "200":
+          description: "Obtiene todos los platos"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ResponsePedidos"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - "administrador"
+      description: "Crea un Plato en Delilah Restó\n"
+      requestBody:
+        $ref: "#/components/requestBodies/pedidoBody"
+      responses:
+        "200":
+          description: "Crear un Plato"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Platos"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+  /pedidos/{id}:
+    get:
+      tags:
+      - "administrador"
+      - "cliente"
+      description: "Obtiene un Plato identificado por  el `id` en Delilah Restó\n"
+      operationId: "getPedidoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Pedido"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto JSON"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ResponsePedidos"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "Plato no encontrado"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - "administrador"
+      description: "Edita la forma de pago de un Pedido identificado por  el `id`\
+        \ en Delilah Restó\n"
+      operationId: "setPedidoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Pedido"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      requestBody:
+        $ref: "#/components/requestBodies/pedidoBody"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha modificado el Pedido {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - "administrador"
+      description: "Elimina un Pedido identificado por  el `id` en Delilah Restó\n"
+      operationId: "deletePedidoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del Pedido"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Objeto Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    example: "se ha eliminado el Pedido {id}"
+        "400":
+          description: "El Token ha expirado"
+        "401":
+          description: "No tiene permisos para realizar esta operación"
+        "404":
+          description: "No se incluyó el token en la cabecera"
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    Platos:
+      required:
+      - "nombre"
+      - "precio"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        nombre:
+          type: "string"
+          example: "Hamburguesa con queso"
+        precio:
+          type: "integer"
+          format: "int32"
+          example: 20000
+        descripcion:
+          type: "string"
+          example: "Jugosa carne 100% de res de 125 gramos, con queso mozzarella delicioso,\
+            \ verduras y salsas."
+        imagen:
+          type: "string"
+          example: "https://dummyimage.com/150x150/000/fff"
+      description: "Platos de Delilah Restó"
+    Estados:
+      required:
+      - "nombre"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        nombre:
+          type: "string"
+          example: "Nuevo"
+    Favoritos:
+      required:
+      - "plato"
+      - "usuario"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        usuario:
+          type: "integer"
+          format: "uid"
+          example: 1
+        plato:
+          type: "integer"
+          format: "uid"
+          example: 1
+    Formas_De_Pago:
+      required:
+      - "nombre"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        nombre:
+          type: "string"
+          example: "Efectivo"
+    Pedidos:
+      required:
+      - "estado"
+      - "formaPago"
+      - "usuario"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        formaPago:
+          type: "integer"
+          format: "uid"
+          example: 1
+        usuario:
+          type: "integer"
+          format: "uid"
+          example: 1
+        estado:
+          type: "integer"
+          format: "uid"
+          example: 1
+    ResponseFavoritos:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        platoId:
+          type: "integer"
+          format: "uid"
+          example: 3
+        plato:
+          type: "string"
+          example: "Hamburguesa Pollog"
+    ResponsePedidos:
+      type: "object"
+      properties:
+        estado:
+          type: "string"
+          example: "NUEVO"
+        hora:
+          type: "string"
+          example: "2020-09-21T03:38:52.000Z"
+        número:
+          type: "string"
+          example: "#1"
+        descripcion:
+          type: "string"
+          example: "3xHamburguesa con queso 1xHamburguesa con queso y Tocineta"
+        pago:
+          type: "string"
+          example: "Efectivo"
+        total:
+          type: "string"
+          example: "26000"
+        idUsuario:
+          type: "integer"
+          format: "uid"
+          example: 1
+        usuario:
+          type: "string"
+          example: "Kelli Cutting"
+        dirección:
+          type: "string"
+          example: "2017 Tomscot Court"
+    Roles:
+      required:
+      - "nombre"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "uid"
+          example: 1
+        nombre:
+          type: "string"
+          example: "Cliente"
+    Usuarios:
+      required:
+      - "direccion"
+      - "email"
+      - "password"
+      - "rol"
+      - "usuario"
+      type: "object"
+      properties:
+        usuario:
+          type: "string"
+          example: "lcleefc"
+        nombre:
+          type: "string"
+          example: "Lelah"
+        apellido:
+          type: "string"
+          example: "Cleef"
+        email:
+          type: "string"
+          example: "lcleefc@timesonline.co.uk"
+        telefono:
+          type: "string"
+          example: "517-534-7673"
+        direccion:
+          type: "string"
+          example: "95023 Hoard Drive"
+        password:
+          type: "string"
+          format: "password"
+          example: "qE5DN8o0qp"
+        rol:
+          type: "integer"
+          format: "uid"
+          example: 1
+  responses:
+    UnauthorizedError:
+      description: "No tiene permisos para realizar esta operación"
+    ExpiredTokenError:
+      description: "El Token ha expirado"
+    MissingTokenError:
+      description: "No se incluyó el token en la cabecera"
+    ExistJetError:
+      description: "El nombre de usuario y/o email ya existe"
+  requestBodies:
+    regristroBody:
+      description: "Objeto JSON que contiene el cuerpo del usuario para su registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              usuario:
+                type: "string"
+                example: "cliente"
+              nombre:
+                type: "string"
+                example: "lcleefc@timesonline.co.uk"
+              apellido:
+                type: "string"
+                format: "password"
+                example: "qE5DN8o0qp"
+              email:
+                type: "string"
+                example: "lcleefc@timesonline.co.uk"
+              telefono:
+                type: "string"
+                example: "379-339-0649"
+              direccion:
+                type: "string"
+                example: "2017 hollywood Str"
+              password:
+                type: "string"
+                format: "password"
+                example: "cliente123"
+      required: true
+    sesionBody:
+      description: "Objeto JSON que contiene el cuerpo del usuario para su registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              usuario:
+                type: "string"
+                example: "cliente"
+              password:
+                type: "string"
+                format: "password"
+                example: "cliente123"
+      required: true
+    pedidoBody:
+      description: "Objeto JSON que contiene el cuerpo del pedido para su registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              formaPago:
+                type: "integer"
+                example: 1
+      required: true
+    estadoBody:
+      description: "Objeto JSON que contiene el cuerpo del estado para su registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              nombre:
+                type: "string"
+                example: "Devuelto"
+      required: true
+    formaPagoBody:
+      description: "Objeto JSON que contiene el cuerpo de la forma de Pago para su\
+        \ registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              nombre:
+                type: "string"
+                example: "Tarjeta Debito"
+      required: true
+    favoritoBody:
+      description: "Objeto JSON que contiene el cuerpo de la forma de Pago para su\
+        \ registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              plato:
+                type: "string"
+                example: "10"
+      required: true
+    rolBody:
+      description: "Objeto JSON que contiene el cuerpo del rol para su registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              nombre:
+                type: "string"
+                example: "Cliente"
+      required: true
+    platoBody:
+      description: "Objeto JSON que contiene el cuerpo del Plato para su registro"
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              nombre:
+                type: "string"
+                example: "Hamburguesa con queso"
+              precio:
+                type: "integer"
+                format: "int32"
+                example: 20000
+              descripcion:
+                type: "string"
+                example: "Jugosa carne 100% de res de 125 gramos, con queso mozzarella\
+                  \ delicioso, verduras y salsas."
+              imagen:
+                type: "string"
+                example: "https://dummyimage.com/150x150/000/fff"
+      required: true
+  securitySchemes:
+    bearerAuth:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: "JWT"
