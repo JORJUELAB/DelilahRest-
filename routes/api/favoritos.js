@@ -38,8 +38,9 @@ router.get("/:id", async (req, res) => {
   let favorito = {};
   if (req.rol == 1) {
     favorito = await sequelize.query(
-      `SELECT p.nombre as plato 
+      `SELECT f.id, p.id as platoId, u.nombre as usuario, p.nombre as plato 
         FROM Favoritos as f 
+        JOIN Usuarios as u ON f.usuario = u.id
         JOIN Platos as p ON f.plato = p.id
         WHERE f.id = ${req.params.id}`,
       {
@@ -48,7 +49,7 @@ router.get("/:id", async (req, res) => {
     );
   } else {
     favorito = await sequelize.query(
-      `SELECT p.nombre as plato 
+      `SELECT f.id, p.id as platoId, p.nombre as plato 
         FROM Favoritos as f 
         JOIN Platos as p ON f.plato = p.id
         WHERE f.usuario = ${req.usuarioId} AND f.plato = ${req.params.id}`,

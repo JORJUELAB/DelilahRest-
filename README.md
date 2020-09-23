@@ -91,16 +91,248 @@ Key: Authorization
 Valor: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOjUsInJvbCI6MiwiaWF0IjoxNjAwNjU5NjUzLCJleHAiOjE2MDA2NjMyNTN9.I1h-jgcLVqB2nK7xVPE_ELHRflzIvgZ6ox0we65PCQ0
 ```
 
+Excepto los default:
+
+- POST/usuarios/register
+  Request application/json
+  ```
+  // Campo de rol es adicional sólo si se es admin se pone el valor 1, si no, el default es 2
+  {
+    "usuario": "cliente2",
+    "nombre": "Keanu",
+    "apellido": "Reves",
+    "email": "cliente2@reverbnation.com",
+    "telefono": "379-339-0649",
+    "direccion": "2017 hollywood Str",
+    "password": "cliente123"
+    "rol":1
+  }
+  ```
+- POST/usuarios/login
+  Request application/json
+  ```
+  // Sólo es necesario un campo de email, o uno de usuario
+  {
+    "usuario": "cliente2" || "email": "cliente2@reverbnation.com",
+    "password": "cliente123"
+  }
+  ```
+
+Los siguientes son los verbos y los request que reciben (si lo requieren):
+
 ### Estados: http://IP:PORT/api/estados
+
+administrador
+
+- GET/estados
+- POST/estados
+  Request application/json
+
+  ```
+  {
+    "nombre":"Devuelto"
+  }
+  ```
+
+- GET/estados/{id}
+- PUT/estados/{id}
+  Request application/json
+  ```
+  {
+    "nombre":"Cancelado"
+  }
+  ```
+  DELETE/estados/{id}
+
+Cliente
+
+- GET/estados
+- GET/estados/{id}
 
 ### Formas de Pago: http://IP:PORT/api/formasPago
 
+administrador
+
+- GET/formasPago
+- POST/formasPago
+  Request application/json
+  ```
+    {
+      "nombre":"Tarjeta Debito"
+    }
+  ```
+- GET/formasPago/{id}
+- PUT/formasPago/{id}
+  Request application/json
+  ```
+    {
+      "nombre":"Tarjeta Debito"
+    }
+  ```
+- DELETE/formasPago/{id}
+
+Cliente
+
+- GET/formasPago
+- GET/formasPago/{id}
+
 ### Favoritos: http://IP:PORT/api/favoritos
+
+administrador
+
+- GET/favoritos
+- POST/favoritos
+  Request application/json
+  ```
+    {
+      "usuario":2
+      "plato":"Tarjeta Debito"
+    }
+  ```
+- GET/favoritos/{id}
+- PUT/favoritos/{id}
+  Request application/json
+  ```
+    {
+      "usuario":2
+      "plato":"Tarjeta Debito"
+    }
+  ```
+- DELETE/favoritos/{id}
+
+Cliente
+
+- GET/favoritos
+- POST/favoritos
+  Request application/json
+  ```
+    {
+      "plato":"Tarjeta Debito"
+    }
+  ```
+- GET/favoritos/{id}
+- DELETE/favoritos/{id}
 
 ### Pedidos: http://IP:PORT/api/pedidos
 
+administrador
+
+- GET/pedidos
+- POST/pedidos
+  Request application/json
+  ```
+     {
+        "usuario": 3,
+        "formaPago": 1,
+        "platos":
+          [{
+            "id":10,
+            "cantidad":1
+          },
+          {
+            "id":11,
+            "cantidad":2
+          }
+        ]
+      }
+  ```
+- GET/pedidos/{id}
+- PUT/pedidos/{id}
+  Request application/json
+  ```
+    {
+      "usuario": 3,
+      "formaPago": 2
+    }
+  ```
+- DELETE/pedidos/{id}
+
+Cliente
+
+- GET/pedidos
+- GET/pedidos/{id}
+
 ### Platos: http://IP:PORT/api/platos
+
+administrador
+
+- GET/platos
+- POST/platos
+  Request application/json
+  ```
+    {
+        "nombre": "Picada",
+        "precio": 21200,
+        "descripcion": "125 gramos de lomo de res, 160 gramos de pollo y crujientes cascos de papa acompañado de un delicioso aderezo.",
+        "imagen": "https://dummyimage.com/150x150/000/fff"
+    }
+  ```
+- GET/platos/{id}
+- PUT/platos/{id}
+  Request application/json
+  ```
+    {
+        "nombre": "Picada",
+        "precio": 21200,
+        "descripcion": "125 gramos de lomo de res, 160 gramos de pollo y crujientes cascos de papa acompañado de un delicioso aderezo.",
+        "imagen": "https://dummyimage.com/150x150/000/fff"
+    }
+  ```
+- DELETE/platos/{id}
+
+Cliente
+
+- GET/platos
+- GET/platos/{id}
 
 ### Roles: http://IP:PORT/api/roles
 
+administrador
+
+- GET/roles
+- POST/roles
+  Request application/json
+  ```
+  {
+    "nombre":"Administrador"
+  }
+  ```
+- GET/roles/{id}
+- PUT/roles/{id}
+  Request application/json
+  ```
+  {
+    "nombre":"Administrador"
+  }
+  ```
+- DELETE/roles/{id}
+
 ### Usuarios: http://IP:PORT/api/usuarios
+
+administrador
+
+- GET/usuarios/
+- GET/usuarios/{id}
+- PUT/usuarios/{id}
+  Request application/json
+  ```
+  {
+    "usuario": "cliente2",
+    "nombre": "Keanu",
+    "apellido": "Reves",
+    "email": "cliente2@reverbnation.com",
+    "telefono": "379-339-0649",
+    "direccion": "2017 hollywood Str",
+    "password": "cliente123"
+    "rol":1
+  }
+  ```
+- DELETE/usuarios/{id}
+
+cliente
+
+- PUT/usuarios/{id}
+  //Si un usuario cliente envía el campo rol, este será descartado y no podrá editarlo, además sólo puede etidar su propio usuario
+  Request application/json
+  ` { "usuario": "cliente2", "nombre": "Keanu", "apellido": "Reves", "email": "cliente2@reverbnation.com", "telefono": "379-339-0649", "direccion": "2017 hollywood Str", "password": "cliente123" "rol":1 } `
+- DELETE/usuarios/{id}

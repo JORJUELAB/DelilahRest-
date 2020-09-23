@@ -62,7 +62,7 @@ router.post(
         res.status(404).json({ error: "Error en usuario y/o contraseña" });
       }
     } else {
-      res.status(404).json({ error: " " });
+      res.status(404).json({ error: "Error en usuario y/o contraseña" });
     }
   }
 );
@@ -92,16 +92,26 @@ router.get(
 
 // GET - Obtener un Usuario por ID- Sólo para los administradores
 // SELECT * FROM Usuarios WHERE id = id;
-router.get(
-  "/:id",
-  [middleware.verificarToken, middleware.validarAdmin],
-  async (req, res) => {
-    const usuario = await Usuario.findOne({
+router.get("/:id", middleware.verificarToken, async (req, res) => {
+  let usuario = {};
+  if (req.rol == 1) {
+    usuario = await Usuario.findOne({
       where: { id: req.params.id },
     });
-    res.json({ usuario });
+    return res.json({ usuario });
+  } else {
+    if (req.params.id == req.usuarioId) {
+      usuario = await Usuario.findOne({
+        where: { id: req.usuarioId },
+      });
+      return res.json({ usuario });
+    } else {
+      return res
+        .status(401)
+        .json({ error: "No tiene permisos para realizar esta operación" });
+    }
   }
-);
+});
 
 // PUT Editar un usuario - un usuario puede actualizar sus datos excepto su rol
 // UPDATE Usuarios SET usuario = usuario, nombre = nombre,  apellido = apellido,
