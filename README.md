@@ -186,7 +186,7 @@ administrador
   ```
     {
       "usuario":2
-      "plato":"Tarjeta Debito"
+      "plato":10
     }
   ```
 - GET/favoritos/{id}
@@ -195,7 +195,7 @@ administrador
   ```
     {
       "usuario":2
-      "plato":"Tarjeta Debito"
+      "plato":10
     }
   ```
 - DELETE/favoritos/{id}
@@ -207,7 +207,7 @@ Cliente
   Request application/json
   ```
     {
-      "plato":"Tarjeta Debito"
+      "plato":10
     }
   ```
 - GET/favoritos/{id}
