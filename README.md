@@ -23,7 +23,7 @@ Es un servicio de Backend - API REST con NodeJS y base de dátos MySQL
 ## Proyecto
 
 El proyecto levanta un servidor REST comunicado con una base de dátos mysql, el cuál permite un sistema de gestión de usuarios,
-platos y pedidos.
+platos, favoritos, roles, pedidos, estados y metodos de pago.
 
 ### Tablas:
 
@@ -334,5 +334,5 @@ cliente
 - PUT/usuarios/{id}
   //Si un usuario cliente envía el campo rol, este será descartado y no podrá editarlo, además sólo puede etidar su propio usuario
   Request application/json
-  ` { "usuario": "cliente2", "nombre": "Keanu", "apellido": "Reves", "email": "cliente2@reverbnation.com", "telefono": "379-339-0649", "direccion": "2017 hollywood Str", "password": "cliente123" "rol":1 } `
+  `{ "usuario": "cliente2", "nombre": "Keanu", "apellido": "Reves", "email": "cliente2@reverbnation.com", "telefono": "379-339-0649", "direccion": "2017 hollywood Str", "password": "cliente123" "rol":1 }`
 - DELETE/usuarios/{id}
