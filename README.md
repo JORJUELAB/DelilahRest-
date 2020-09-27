@@ -9,7 +9,7 @@ https://app.swaggerhub.com/apis-docs/janoguerab/DelilahResto/1.0.0-oas3
 
 ## Proyecto desplegado en Heroku
 
-https://glacial-bayou-79725.herokuapp.com/api/
+https://delilahresto-janoguerab.herokuapp.com/api
 
 ## Tecnologías:
 
