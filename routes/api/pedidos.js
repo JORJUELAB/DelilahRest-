@@ -184,22 +184,22 @@ router.post("/", async (req, res) => {
   }, 5);
 });
 
-// PUT Editar un Pedido
+// PUT Editar el estado de un Pedido
 router.put("/:id", middleware.validarAdmin, async (req, res) => {
-  const { formaPago } = req.body;
-  if (req.rol != 1) {
-    req.body.usuario = req.usuarioId;
-  }
-  await Pedido.update(
-    { formaPago, usuario: req.body.usuario },
-    { where: { id: req.params.id, usuario: req.body.usuario } }
-  ).catch(() => {
-    res.status(409).json({
-      error: "No se pudo modificar el pedido.",
+  const { estado } = req.body;
+  console.log(estado);
+  await Pedido.update({ estado: estado }, { where: { id: req.params.id } })
+    .then((pedido) => {
+      console.log(pedido);
+      return res.json({
+        message: `se ha modificado el Pedido ${req.params.id}`,
+      });
+    })
+    .catch(() => {
+      res.status(409).json({
+        error: "No se pudo modificar el pedido.",
+      });
     });
-  });
-
-  res.json({ message: `se ha modificado el Pedido ${req.params.id}` });
 });
 
 // DELETE Eliminar un pedido
