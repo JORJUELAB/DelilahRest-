@@ -5,7 +5,7 @@ Es un servicio de Backend - API REST con NodeJS y base de dátos MySQL
 
 ## Documentación Swagger
 
-https://app.swaggerhub.com/apis-docs/janoguerab/DelilahResto/1.0.0-oas3
+https://app.swaggerhub.com/apis/janoguerab/DelilahResto/1.0.0-oas3
 
 ## Proyecto desplegado en Heroku
 
