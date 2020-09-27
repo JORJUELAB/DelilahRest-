@@ -16,11 +16,11 @@ require("./env");
 
 //Sincronización con la base de dátos ('database', 'username', 'password'), {'servidor', 'mysql'}
 const sequelize = new Sequelize(
-  process.env.DB_SCHEMA || "DelilahResto",
-  process.env.DB_USER || "root",
-  process.env.DB_PASS || "123",
+  process.env.DB_SCHEMA ? process.env.DB_SCHEMA : "DelilahResto",
+  process.env.DB_USER ? process.env.DB_USER : "root",
+  process.env.DB_PASS ? process.env.DB_PASS : "123",
   {
-    host: process.env.DB_HOST || "localhost",
+    host: process.env.DB_HOST ? process.env.DB_HOST : "localhost",
     dialect: "mysql",
   }
 );
