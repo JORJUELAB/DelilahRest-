@@ -253,8 +253,7 @@ administrador
   Request application/json
   ```
     {
-      "usuario": 3,
-      "formaPago": 2
+      "estado": 2
     }
   ```
 - DELETE/pedidos/{id}
