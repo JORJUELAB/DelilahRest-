@@ -3,6 +3,14 @@
 Este es un proyecto desarrollado para el curso de Desarrollo Web FullStack de Acámica.
 Es un servicio de Backend - API REST con NodeJS y base de dátos MySQL
 
+## Documentación Swagger
+
+https://app.swaggerhub.com/apis-docs/janoguerab/DelilahResto/1.0.0-oas3
+
+## Proyecto desplegado en Heroku
+
+https://glacial-bayou-79725.herokuapp.com/api/
+
 ## Tecnologías:
 
 - Node JS
